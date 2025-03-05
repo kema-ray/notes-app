@@ -1,5 +1,36 @@
 <template>
-    <div>
-        <h1>Register Page</h1>
+    <div class="flex bg-black h-screen">
+        <!-- Sidebar -->
+        <div class="bg-zinc-900 w-[516px] p-12 flex flex-col justify-center">
+            <Logo />
+            <h1 class="text-white font-bold text-lg mt-8">Sign up for a free account</h1>
+            <p class="text-[#F4F4F5] text-sm mt-1">Already registered?<span class="font-bold text-[#FFAC00] underline">Log in</span> to your account</p>
+            <div class="mt-8">
+                <label for="" class="text-[#F4F4F5] text-sm block mb-2">Email Address</label>
+                <input type="email" placeholder="you@example.com" class="block w-full bg-[#27272A] border border-[#3F3F46] rounded text-white px-2 py-2 placeholder:text-[#66666B] text-sm" />
+            </div>
+
+            <div class="mt-6">
+                <label for="" class="text-[#F4F4F5] text-sm block mb-2">Password</label>
+                <input type="password" placeholder="***************" class="block w-full bg-[#27272A] border border-[#3F3F46] rounded text-white px-2 py-2 placeholder:text-[#66666B] text-sm" />
+            </div>
+
+            <!-- sign up button -->
+            <div>
+                <button class="w-full mt-4 bg-[#FFAC00] rounded-full px-4 py-2 text-sm font-bold flex justify-center items-center space-x-2">
+                    <span>Sign Up</span>
+                    <ArrowRight />
+                </button>
+            </div>
+            <!-- /sign up button -->
+
+        </div>
+        <!--/sidebar -->
+
+        <!-- note Introduction -->
+         <div>
+
+         </div>
+         <!-- /note I ntroduction -->
     </div>
 </template>
