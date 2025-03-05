@@ -4,33 +4,59 @@
         <div class="bg-zinc-900 w-[516px] p-12 flex flex-col justify-center">
             <Logo />
             <h1 class="text-white font-bold text-lg mt-8">Sign up for a free account</h1>
-            <p class="text-[#F4F4F5] text-sm mt-1">Already registered?<span class="font-bold text-[#FFAC00] underline">Log in</span> to your account</p>
-            <div class="mt-8">
-                <label for="" class="text-[#F4F4F5] text-sm block mb-2">Email Address</label>
-                <input type="email" placeholder="you@example.com" class="block w-full bg-[#27272A] border border-[#3F3F46] rounded text-white px-2 py-2 placeholder:text-[#66666B] text-sm" />
-            </div>
+            <p class="text-[#F4F4F5] text-sm mt-1">Already registered?<span
+                    class="font-bold text-[#FFAC00] underline">Log in</span> to your account</p>
+            <form @submit.prevent="submitForm">
+                <div class="mt-8">
+                    <label for="" class="text-[#F4F4F5] text-sm block mb-2">Email Address</label>
+                    <input v-model="email" type="email" placeholder="you@example.com"
+                        class="block w-full bg-[#27272A] border border-[#3F3F46] rounded text-white px-2 py-2 placeholder:text-[#66666B] text-sm" />
+                </div>
 
-            <div class="mt-6">
-                <label for="" class="text-[#F4F4F5] text-sm block mb-2">Password</label>
-                <input type="password" placeholder="***************" class="block w-full bg-[#27272A] border border-[#3F3F46] rounded text-white px-2 py-2 placeholder:text-[#66666B] text-sm" />
-            </div>
+                <div class="mt-6">
+                    <label for="" class="text-[#F4F4F5] text-sm block mb-2">Password</label>
+                    <input v-model="password" type="password" placeholder="***************"
+                        class="block w-full bg-[#27272A] border border-[#3F3F46] rounded text-white px-2 py-2 placeholder:text-[#66666B] text-sm" />
+                </div>
 
-            <!-- sign up button -->
-            <div>
-                <button class="w-full mt-4 bg-[#FFAC00] rounded-full px-4 py-2 text-sm font-bold flex justify-center items-center space-x-2">
-                    <span>Sign Up</span>
-                    <ArrowRight />
-                </button>
-            </div>
-            <!-- /sign up button -->
+                <!-- sign up button -->
+                <div>
+                    <button
+                        class="w-full mt-4 bg-[#FFAC00] rounded-full px-4 py-2 text-sm font-bold flex justify-center items-center space-x-2">
+                        <span>Sign Up</span>
+                        <ArrowRight />
+                    </button>
+                </div>
+                <!-- /sign up button -->
+            </form>
 
         </div>
         <!--/sidebar -->
 
         <!-- note Introduction -->
-         <div>
+        <div>
 
-         </div>
-         <!-- /note I ntroduction -->
+        </div>
+        <!-- /note I ntroduction -->
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+
+const email = ref('');
+const password = ref('');
+
+async function submitForm() {
+    console.log(email.value, password.value);
+    const response = await $fetch('/api/user', {
+        method: 'POST',
+        body: {
+            email: email.value,
+            password: password.value
+        }
+    })
+
+    console.log(response);
+}
+</script>
