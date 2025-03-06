@@ -58,6 +58,13 @@ async function submitForm() {
                 password: password.value
             }
         });
+
+        Swal.fire({
+            title: 'Success!',
+            text: 'Account created successfully',
+            icon: 'success',
+            confirmButtonText: 'Close'
+        });
     } catch (error) {  
         Swal.fire({
             title: 'Error!',

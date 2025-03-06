@@ -17,12 +17,33 @@
 
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
+import validator from "validator";
 
 const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
     try {
         const body = await readBody(event);
+
+        if (!validator.isEmail(body.email)) {
+            throw createError({
+                statusCode: 400,
+                message: "Invalid email address",
+            });
+        };
+
+        if (!validator.isStrongPassword(body.password, {
+            minLength: 8,
+            minLowercase: 0,
+            minUppercase: 0,
+            minNumbers: 0,
+            minSymbols: 0,
+        })) {
+            throw createError({
+                statusCode: 400,
+                message: "Password is not 8 characters long",
+            });
+        };
 
         // Hash password
         const salt = await bcrypt.genSalt(10);
