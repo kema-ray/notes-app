@@ -43,20 +43,28 @@
 
 <script setup>
 import { ref } from 'vue';
+import Swal from 'sweetalert2';
 
 const email = ref('');
 const password = ref('');
 
 async function submitForm() {
-    console.log(email.value, password.value);
-    const response = await $fetch('/api/user', {
-        method: 'POST',
-        body: {
-            email: email.value,
-            password: password.value
-        }
-    })
-
-    console.log(response);
+    try {
+        console.log(email.value, password.value);
+        const response = await $fetch('/api/user', {
+            method: 'POST',
+            body: {
+                email: email.value,
+                password: password.value
+            }
+        });
+    } catch (error) {  
+        Swal.fire({
+            title: 'Error!',
+            text: error.response?._data?.message,
+            icon: 'error',
+            confirmButtonText: 'Close'
+        });
+    }
 }
 </script>

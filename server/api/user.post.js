@@ -24,25 +24,12 @@ export default defineEventHandler(async (event) => {
     try {
         const body = await readBody(event);
 
-        if (!body.email || !body.password) {
-            throw new Error("Email and password are required");
-        }
-
-        // Check if user already exists (prevent duplicates)
-        const existingUser = await prisma.user.findUnique({
-            where: { email: body.email },
-        });
-
-        if (existingUser) {
-            throw new Error("User already exists");
-        }
-
         // Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(body.password, salt);
 
         // Create new user
-        const newUser = await prisma.user.create({
+        const user = await prisma.user.create({
             data: {
                 email: body.email,
                 password: hashedPassword,
@@ -50,9 +37,16 @@ export default defineEventHandler(async (event) => {
             },
         });
 
-        return { data: "success", user: newUser };
+        return { data: "success", user: user };
     } catch (error) {
-        console.error("API Error:", error.message);
-        return createError({ statusCode: 500, message: error.message });
+        console.log(error.code);
+
+        if (error.code === 'P2002') {
+            throw createError({
+                statusCode: 409,
+                message: "An email with this address already exists",
+            })
+        }
+        throw error;
     }
 });
