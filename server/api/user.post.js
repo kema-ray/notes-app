@@ -18,6 +18,7 @@
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 import validator from "validator";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
@@ -57,6 +58,11 @@ export default defineEventHandler(async (event) => {
                 salt: salt,
             },
         });
+
+        // Create JWT
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+
+        setCookie(event, "NoteTestJWT", token);
 
         return { data: "success", user: user };
     } catch (error) {

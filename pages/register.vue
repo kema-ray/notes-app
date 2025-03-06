@@ -59,12 +59,17 @@ async function submitForm() {
             }
         });
 
-        Swal.fire({
+        const { isConfirmed } = await Swal.fire({
             title: 'Success!',
             text: 'Account created successfully',
             icon: 'success',
             confirmButtonText: 'Close'
         });
+
+        if (isConfirmed) {
+            navigateTo('/')
+            // $router.push('/');
+        }
     } catch (error) {  
         Swal.fire({
             title: 'Error!',
