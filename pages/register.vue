@@ -4,8 +4,8 @@
         <div class="bg-zinc-900 w-[516px] p-12 flex flex-col justify-center">
             <Logo />
             <h1 class="text-white font-bold text-lg mt-8">Sign up for a free account</h1>
-            <p class="text-[#F4F4F5] text-sm mt-1">Already registered?<span
-                    class="font-bold text-[#FFAC00] underline">Log in</span> to your account</p>
+            <p class="text-[#F4F4F5] text-sm mt-1">Already registered?<nuxt-link to="/login"
+                    class="font-bold text-[#FFAC00] underline">Log in</nuxt-link> to your account</p>
             <form @submit.prevent="submitForm">
                 <div class="mt-8">
                     <label for="" class="text-[#F4F4F5] text-sm block mb-2">Email Address</label>
