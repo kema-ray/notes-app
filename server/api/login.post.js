@@ -49,9 +49,9 @@ export default defineEventHandler(async (event) => {
         }
 
         // Create JWT
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
-        setCookie(event, "NoteTestJWT", token);
+        setCookie(event, "NoteNestJWT", token);
 
         return { data: "success", user: user };
     } catch (error) {
