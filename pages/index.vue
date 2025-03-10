@@ -72,7 +72,7 @@
         <!--/sidebar -->
 
         <!-- note container -->
-        <div class="w-full">
+        <div class="w-full flex flex-col">
             <div class="flex justify-between items-start p-8 w-full">
                 <button class="inline-flex items-center space-x-2 text-xs text-[#C2C2C5] hover:text-white font-bold">
                     <PencilIcon />
@@ -82,9 +82,14 @@
                     <TrashIcon class="text-[#6D6D73] hover:text-white" />
                 </button>
             </div>
-            <div class="max-w-[437px] mx-auto">
+            <div class="max-w-[437px] mx-auto w-full flex-grow flex flex-col">
                 <p class="text-[#929292]">{{ new Date(selectedNote.updatedAt).toLocaleDateString() }}</p>
-                <p class="text-[#D4D4D4] my-4 font-playfair">{{ selectedNote.text }}</p>
+                <textarea v-model="updatedNote" name="note" id="note"
+                    class="text-[#D4D4D4] my-4 font-playfair w-full bg-transparent focus:outline-none resize-none flex-grow"
+                    @input="() => {
+                        debouncedFn()
+                        selectedNote.text = updatedNote
+                    }"></textarea>
             </div>
         </div>
         <!-- /note container -->
@@ -96,6 +101,7 @@ import { ref } from 'vue';
 
 const notes = ref([]);
 const selectedNote = ref({});
+const updatedNote = ref({});
 
 definePageMeta({
     middleware: ['auth'],
@@ -126,9 +132,28 @@ const earlierNotes = computed(() => {
     })
 })
 
+const debouncedFn = useDebounceFn(async () => {
+    await updateNote()
+}, 1000)
+
+async function updateNote() {
+    try {
+        await $fetch(`/api/notes/${selectedNote.value.id}`, {
+            method: 'PATCH',
+            body: {
+                updateNote: updatedNote.value
+            }
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 onMounted(async () => {
     notes.value = await $fetch('/api/notes');
 
     if (notes.value.length > 0) selectedNote.value = notes.value[0];
+
+    updatedNote.value = selectedNote.value.text;
 });
 </script>
